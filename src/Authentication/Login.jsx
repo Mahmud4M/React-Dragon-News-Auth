@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 
 
 const Login = () => {
     const { signIn } = useContext(AuthContext);
-    const [success, setSuccess] = useState('');
-    const [loginError, setLoginError] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -16,14 +14,12 @@ const Login = () => {
         const password = form.get('password');
         console.log(email, password)
 
-        // Reset success and loginerror message after another submit
-        setSuccess('')
-        setLoginError('')
 
         // Login From AuthProvider
         signIn(email, password)
             .then(result => {
-                setSuccess(result.user)
+                console.log(result.user)
+                e.target.reset();
             })
             .catch(error => {
                 console.log(error)
@@ -68,14 +64,6 @@ const Login = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="text-center mt-2">
-                {
-                    success && <p className="text-green-700">{success}</p>
-                }
-                {
-                    loginError && <p className="text-red-700">{loginError}</p>
-                }
             </div>
         </>
     );
